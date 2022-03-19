@@ -1,0 +1,176 @@
+$color-white: #ffffff;
+$color-white-2: #e0e0e0;
+
+$color-black: #000000;
+$color-black-2: #262626;
+
+$color-gray: rgb(202, 199, 199);
+$color-blue: #00b7eb;
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.App-header {
+  background-color: #282c34;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* ---------- */
+.kanban-board {
+  padding: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(auto-fill, 300px);
+  align-items: start;
+  padding: 2rem 2rem;
+
+  .add-list {
+    padding: 0.5rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: rgba($color-gray, 0.1);
+  }
+
+  .dnd-group {
+    background-color: #49505e;
+    background-color: $color-white-2;
+    border-radius: 3px;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    .lists-title {
+      text-align: left;
+      margin-bottom: 0.5rem;
+      // font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // border: 1px solid black;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: $color-gray;
+      }
+
+      h5 {
+        color: $color-black;
+        font-size: 1.1rem;
+        margin: 0;
+        padding: 0;
+        text-transform: capitalize;
+      }
+
+      svg {
+        color: $color-black;
+        cursor: pointer;
+      }
+    }
+
+    .dnd-item {
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+      min-height: 2.5rem;
+      background-color: $color-white;
+      border-radius: 3px;
+      color: $color-black;
+      // font-weight: bold;
+      padding: 0.3rem 0.5rem;
+      text-align: left;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+      &.current {
+        // background-color: #282c34;
+        // display: none;
+        background-color: $color-white-2;
+        box-shadow: none;
+        p {
+          display: none;
+        }
+      }
+
+      &:not(last-of-type) {
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        margin: 0;
+        font-size: 1rem;
+      }
+    }
+
+    .list-footer {
+      // width: 100%;
+      .add-card {
+        font-size: 1rem;
+        padding: 0.3rem 0.8rem;
+        color: $color-black;
+        // border: 1px solid black;
+        cursor: pointer;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: $color-gray;
+        }
+      }
+    }
+  }
+}
+
+.form {
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  textarea {
+    resize: none;
+    width: 93%;
+    // width: 100%;
+    outline: none;
+    border-radius: 3px;
+    border: none;
+    border: 2px solid $color-blue;
+    padding: 0.3rem 0.5rem;
+  }
+
+  input {
+    width: 93%;
+    outline: none;
+    border-radius: 3px;
+    border: none;
+    border: 2px solid $color-blue;
+    padding: 0.3rem 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .btns {
+    display: flex;
+    text-align: center;
+
+    button {
+      border: none;
+      outline: none;
+      border-radius: 3px;
+      background-color: $color-blue;
+      color: $color-white;
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+
+    .cancel {
+      cursor: pointer;
+      color: $color-black;
+    }
+  }
+}

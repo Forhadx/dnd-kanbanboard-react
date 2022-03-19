@@ -1,0 +1,118 @@
+import React, { useRef, useState } from "react";
+import ListFooter from "./ListFooter";
+import ListHeader from "./ListHeader";
+
+const DragNDrop = ({ data }) => {
+  const [list, setList] = useState(data);
+  const [dragging, setDragging] = useState(false);
+
+  const dragItem = useRef();
+  const dragNode = useRef();
+
+  const clickHandler = () => {
+    localStorage.setItem("data", JSON.stringify(data));
+  };
+
+  const alldataHandler = () => {
+    let alldata = JSON.parse(localStorage.getItem("data"));
+    console.log(alldata);
+  };
+
+  const handleDragStart = (e, params) => {
+    console.log("drag start...", params);
+    dragItem.current = params;
+    dragNode.current = e.target;
+    dragNode.current.addEventListener("dragend", handlerDragEnd);
+    setTimeout(() => {
+      setDragging(true);
+    }, 0);
+  };
+
+  const handleDragEnter = (e, params) => {
+    console.log("entering..", params);
+    const currentItem = dragItem.current;
+    if (e.target !== dragNode.current) {
+      console.log("target is not the same");
+      setList((oldList) => {
+        let newList = JSON.parse(JSON.stringify(oldList));
+        console.log("newList: ", newList);
+        newList[params.grpI].items.splice(
+          params.itemI,
+          0,
+          newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
+        );
+        dragItem.current = params;
+        return newList;
+      });
+    }
+  };
+
+  const handlerDragEnd = () => {
+    setDragging(false);
+    dragNode.current.removeEventListener("dragend", handlerDragEnd);
+    dragItem.current = null;
+    dragNode.current = null;
+  };
+
+  const getStyle = (params) => {
+    const currentItem = dragItem.current;
+    if (
+      currentItem.grpI === params.grpI &&
+      currentItem.itemI === params.itemI
+    ) {
+      return "current dnd-item";
+    }
+
+    return "dnd-item";
+  };
+
+  return (
+    <div className="kanban-board">
+      <div className="add-list" onClick={clickHandler}>
+        + Add a list
+      </div>
+      <button onClick={alldataHandler}>data</button>
+      {list.map((grp, grpI) => (
+        <div
+          className="dnd-group"
+          key={grpI}
+          onDragEnter={
+            dragging && !grp.items.length
+              ? (e) => handleDragEnter(e, { grpI, itemI: 0 })
+              : null
+          }
+        >
+          <ListHeader grp={grp} />
+          <ul>
+            {grp.items.map((item, itemI) => (
+              <li
+                draggable
+                onDragStart={(e) => handleDragStart(e, { grpI, itemI })}
+                onDragEnter={
+                  dragging ? (e) => handleDragEnter(e, { grpI, itemI }) : null
+                }
+                className={dragging ? getStyle({ grpI, itemI }) : "dnd-item"}
+                key={itemI}
+              >
+                <p>{item}</p>
+              </li>
+            ))}
+          </ul>
+
+          <ListFooter />
+        </div>
+      ))}
+      <div className="dnd-group">
+        <form className="form">
+          <input type="text" />
+          <div className="btns">
+            <button>Add list</button>
+            <div className="cancel">X</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default DragNDrop;
