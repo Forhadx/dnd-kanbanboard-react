@@ -1,22 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const handleClick = (e) => {
+    console.log(e);
+    // console.log(e.detail);
+    // switch (e.detail) {
+    //   case 1:
+    //     console.log("click");
+    //     break;
+    //   case 2:
+    //     console.log("double click");
+    //     break;
+    //   case 3:
+    //     console.log("triple click");
+    //     break;
+    //   default:
+    //     return;
+    // }
+  };
+
+  const handleDragStart = (e) => {
+    console.log("dragging...");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={handleClick}
+          draggable
+          onDragStart={(e) => handleDragStart(e)}
         >
-          Learn React
-        </a>
+          Click me
+        </button>
       </header>
     </div>
   );
