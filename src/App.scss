@@ -25,10 +25,10 @@ ul {
 /* ---------- */
 .kanban-board {
   padding: 0.5rem;
-  display: grid;
-  gap: 0.5rem;
   width: 100%;
   height: 100%;
+  display: grid;
+  gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, 300px);
   align-items: start;
   padding: 2rem 2rem;
@@ -55,12 +55,7 @@ ul {
       justify-content: space-between;
       align-items: center;
       // border: 1px solid black;
-      padding: 0.3rem 0.5rem;
       border-radius: 3px;
-
-      &:hover {
-        background-color: $color-gray;
-      }
 
       h5 {
         color: $color-black;
@@ -68,34 +63,37 @@ ul {
         margin: 0;
         padding: 0;
         text-transform: capitalize;
-      }
+        width: 90%;
+        border-radius: 3px;
+        padding: 0.3rem 0.5rem;
 
-      svg {
-        color: $color-black;
-        cursor: pointer;
+        &:hover {
+          background-color: $color-gray;
+        }
       }
     }
 
     .dnd-item {
       display: flex;
-      // justify-content: center;
+      justify-content: space-between;
       align-items: center;
       min-height: 2.5rem;
       background-color: $color-white;
       border-radius: 3px;
       color: $color-black;
       // font-weight: bold;
-      padding: 0.3rem 0.5rem;
       text-align: left;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
         rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 
       &.current {
-        // background-color: #282c34;
-        // display: none;
         background-color: $color-white-2;
         box-shadow: none;
+
         p {
+          display: none;
+        }
+        .icons {
           display: none;
         }
       }
@@ -107,6 +105,19 @@ ul {
       p {
         margin: 0;
         font-size: 1rem;
+        word-break: break-all;
+        width: 85%;
+        padding: 0.3rem 0.5rem;
+        // border: 1px solid black;
+      }
+
+      .icons {
+        display: flex;
+
+        svg {
+          cursor: pointer;
+          color: $color-black-2;
+        }
       }
     }
 
@@ -128,6 +139,49 @@ ul {
   }
 }
 
+.more-option {
+  position: relative;
+
+  svg {
+    color: $color-black;
+    cursor: pointer;
+  }
+
+  ul {
+    // display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    // width: 5rem;
+    background-color: $color-white;
+    color: $color-black;
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: 3px;
+
+    li {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        color: rgb(250, 52, 52);
+
+        svg {
+          color: rgb(250, 52, 52);
+        }
+      }
+
+      svg {
+        margin-left: 1rem;
+        font-size: 1rem;
+        padding-top: 0.1rem;
+      }
+    }
+  }
+}
+
 .form {
   width: 100%;
   margin-bottom: 0.5rem;
@@ -140,7 +194,7 @@ ul {
     border-radius: 3px;
     border: none;
     border: 2px solid $color-blue;
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 0.5rem;
   }
 
   input {

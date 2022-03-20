@@ -6,7 +6,7 @@ const ListFooter = ({ grpIndex, data, setData }) => {
 
   const addGroupItemHandler = (e) => {
     e.preventDefault();
-    if (cardTitle) {
+    if (cardTitle.length < 40) {
       let newData = data;
       newData[grpIndex].items.push({ title: cardTitle, lock: false });
       localStorage.setItem("data", JSON.stringify(newData));
@@ -25,6 +25,7 @@ const ListFooter = ({ grpIndex, data, setData }) => {
         <form className="form" onSubmit={addGroupItemHandler}>
           <textarea
             rows="3"
+            placeholder="Enter a title for the card.."
             value={cardTitle}
             onChange={(e) => setCardTitle(e.target.value)}
           ></textarea>

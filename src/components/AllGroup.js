@@ -1,9 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import CardForm from "./Forms/CardForm";
 import ListFooter from "./ListFooter";
 import ListHeader from "./ListHeader";
 
+import ListItem from "./ListItem";
+
 const AllGroup = ({ data, setData }) => {
   const [dragging, setDragging] = useState(false);
+  const [editItemIdx, setEditItemidx] = useState(null);
+  const [editGroupIdx, setEditGroupidx] = useState(null);
 
   const dragItem = useRef();
   const dragNode = useRef();
@@ -50,6 +55,24 @@ const AllGroup = ({ data, setData }) => {
     return "dnd-item";
   };
 
+  const lockCardHandler = (grpIndex, itemIndex) => {
+    let newData = data;
+    if (newData[grpIndex].items[itemIndex].lock === true) {
+      newData[grpIndex].items[itemIndex].lock = false;
+    } else {
+      newData[grpIndex].items[itemIndex].lock = true;
+    }
+    setData([...newData]);
+    localStorage.setItem("data", JSON.stringify(newData));
+  };
+
+  const deleteCardHandler = (grpIndex, itemIndex) => {
+    let newData = data;
+    newData[grpIndex].items.splice(itemIndex, 1);
+    setData([...newData]);
+    localStorage.setItem("data", JSON.stringify(newData));
+  };
+
   return (
     <>
       {data &&
@@ -63,26 +86,46 @@ const AllGroup = ({ data, setData }) => {
                 : null
             }
           >
-            <ListHeader grp={grp} />
+            <ListHeader
+              grp={grp}
+              grpIndex={grpIndex}
+              data={data}
+              setData={setData}
+            />
             <ul>
               {grp.items.map((item, itemIndex) => (
-                <li
-                  draggable
-                  onDragStart={(e) =>
-                    handleDragStart(e, { grpIndex, itemIndex })
-                  }
-                  onDragEnter={
-                    dragging
-                      ? (e) => handleDragEnter(e, { grpIndex, itemIndex })
-                      : null
-                  }
-                  className={
-                    dragging ? getStyle({ grpIndex, itemIndex }) : "dnd-item"
-                  }
-                  key={itemIndex}
-                >
-                  <p>{item.title}</p>
-                </li>
+                <React.Fragment key={itemIndex}>
+                  {editGroupIdx === grpIndex && editItemIdx === itemIndex ? (
+                    <CardForm />
+                  ) : (
+                    <li
+                      draggable={!item.lock}
+                      onDragStart={(e) =>
+                        handleDragStart(e, { grpIndex, itemIndex })
+                      }
+                      onDragEnter={
+                        dragging
+                          ? (e) => handleDragEnter(e, { grpIndex, itemIndex })
+                          : null
+                      }
+                      className={
+                        dragging
+                          ? getStyle({ grpIndex, itemIndex })
+                          : "dnd-item"
+                      }
+                    >
+                      <ListItem
+                        item={item}
+                        itemIndex={itemIndex}
+                        grpIndex={grpIndex}
+                        lockCardHandler={lockCardHandler}
+                        deleteCardHandler={deleteCardHandler}
+                        setEditGroupidx={setEditGroupidx}
+                        setEditItemidx={setEditItemidx}
+                      />
+                    </li>
+                  )}
+                </React.Fragment>
               ))}
             </ul>
 

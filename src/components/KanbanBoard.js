@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllGroup from "./AllGroup";
-// import DndContext from "../store/dnd-context";
 
 const DragNDrop = () => {
   const [data, setData] = useState([]);
   const [isAddGroup, setIsAddGroup] = useState(false);
+  const [hideAddGrp, setHideAddGrp] = useState(true);
   const [title, setTitle] = useState("");
-
-  // const DndCtx = useContext(DndContext);
-  // const { data, addGroupTitle } = DndCtx;
 
   useEffect(() => {
     let alldata = JSON.parse(localStorage.getItem("data"));
@@ -16,8 +13,6 @@ const DragNDrop = () => {
       setData([...alldata]);
     }
   }, []);
-
-  console.log("datalist: ", data);
 
   const addTitleHandler = (e) => {
     e.preventDefault();
@@ -38,22 +33,24 @@ const DragNDrop = () => {
       ) : (
         <>
           <AllGroup data={data} setData={setData} />
-          <div className="dnd-group">
-            <form className="form" onSubmit={addTitleHandler}>
-              <input
-                type="text"
-                placeholder="Enter list title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <div className="btns">
-                <button type="submit">Add list</button>
-                <div className="cancel" onClick={() => setIsAddGroup(false)}>
-                  X
+          {(isAddGroup || hideAddGrp) && (
+            <div className="dnd-group">
+              <form className="form" onSubmit={addTitleHandler}>
+                <input
+                  type="text"
+                  placeholder="Enter list title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <div className="btns">
+                  <button type="submit">Add list</button>
+                  <div className="cancel" onClick={() => setHideAddGrp(false)}>
+                    X
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
+              </form>
+            </div>
+          )}
         </>
       )}
     </div>

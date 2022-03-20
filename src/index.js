@@ -3,13 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { DndContextProvider } from "./store/dnd-context";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DndContextProvider>
-      <App />
-    </DndContextProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
