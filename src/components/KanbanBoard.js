@@ -35,6 +35,7 @@ const KanbanBoard = () => {
                 type="addList"
                 addTitleHandler={addTitleHandler}
                 setHideAddGrp={setHideAddGrp}
+                setIsAddGroup={setIsAddGroup}
               />
             </div>
           )}

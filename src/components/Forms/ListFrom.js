@@ -6,6 +6,7 @@ const ListForm = ({
   setIsEdit,
   editTitleHandler,
   setHideAddGrp,
+  setIsAddGroup,
   addTitleHandler,
 }) => {
   const [title, setTitle] = useState(grp ? grp.title : "");
@@ -26,6 +27,7 @@ const ListForm = ({
     if (type === "editList") {
       setIsEdit(false);
     } else {
+      setIsAddGroup(false);
       setHideAddGrp(false);
     }
   };
