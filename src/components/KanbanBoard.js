@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AllGroup from "./AllGroup";
+import ListForm from "./Forms/ListFrom";
 
-const DragNDrop = () => {
+const KanbanBoard = () => {
   const [data, setData] = useState([]);
   const [isAddGroup, setIsAddGroup] = useState(false);
   const [hideAddGrp, setHideAddGrp] = useState(true);
-  const [title, setTitle] = useState("");
 
   useEffect(() => {
     let alldata = JSON.parse(localStorage.getItem("data"));
@@ -14,14 +14,10 @@ const DragNDrop = () => {
     }
   }, []);
 
-  const addTitleHandler = (e) => {
-    e.preventDefault();
-    if (title) {
-      let newData = [...data, { title: title, items: [] }];
-      setData(newData);
-      localStorage.setItem("data", JSON.stringify(newData));
-      setTitle("");
-    }
+  const addTitleHandler = (title) => {
+    let newData = [...data, { title: title, items: [] }];
+    setData(newData);
+    localStorage.setItem("data", JSON.stringify(newData));
   };
 
   return (
@@ -35,20 +31,11 @@ const DragNDrop = () => {
           <AllGroup data={data} setData={setData} />
           {(isAddGroup || hideAddGrp) && (
             <div className="dnd-group">
-              <form className="form" onSubmit={addTitleHandler}>
-                <input
-                  type="text"
-                  placeholder="Enter list title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <div className="btns">
-                  <button type="submit">Add list</button>
-                  <div className="cancel" onClick={() => setHideAddGrp(false)}>
-                    X
-                  </div>
-                </div>
-              </form>
+              <ListForm
+                type="addList"
+                addTitleHandler={addTitleHandler}
+                setHideAddGrp={setHideAddGrp}
+              />
             </div>
           )}
         </>
@@ -57,4 +44,4 @@ const DragNDrop = () => {
   );
 };
 
-export default DragNDrop;
+export default KanbanBoard;

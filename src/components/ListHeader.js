@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { RiMoreFill } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
+import ListForm from "./Forms/ListFrom";
 
 const ListHeader = ({ grp, grpIndex, data, setData }) => {
-  const [title, setTitle] = useState(grp.title);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
@@ -13,8 +13,7 @@ const ListHeader = ({ grp, grpIndex, data, setData }) => {
     }
   };
 
-  const editTitleHandler = (e) => {
-    e.preventDefault();
+  const editTitleHandler = (title) => {
     let newData = data;
     newData[grpIndex].title = title;
     setData([...newData]);
@@ -32,20 +31,12 @@ const ListHeader = ({ grp, grpIndex, data, setData }) => {
   return (
     <>
       {isEdit ? (
-        <form className="form" onSubmit={editTitleHandler}>
-          <input
-            type="text"
-            placeholder="Update list title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div className="btns">
-            <button type="submit">update</button>
-            <div className="cancel" onClick={() => setIsEdit(false)}>
-              X
-            </div>
-          </div>
-        </form>
+        <ListForm
+          type="editList"
+          editTitleHandler={editTitleHandler}
+          grp={grp}
+          setIsEdit={setIsEdit}
+        />
       ) : (
         <div className="lists-title">
           <h5 onClick={isEditHandler}>{grp.title}</h5>

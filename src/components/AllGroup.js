@@ -1,8 +1,7 @@
 import React, { useState, useRef } from "react";
-import CardForm from "./Forms/CardForm";
+import ItemFrom from "./Forms/ItemFrom";
 import ListFooter from "./ListFooter";
 import ListHeader from "./ListHeader";
-
 import ListItem from "./ListItem";
 
 const AllGroup = ({ data, setData }) => {
@@ -73,6 +72,15 @@ const AllGroup = ({ data, setData }) => {
     localStorage.setItem("data", JSON.stringify(newData));
   };
 
+  const updateCardItemHandler = (title) => {
+    let newData = data;
+    newData[editGroupIdx].items[editItemIdx].title = title;
+    setData([...newData]);
+    localStorage.setItem("data", JSON.stringify(newData));
+    setEditGroupidx(null);
+    setEditItemidx(null);
+  };
+
   return (
     <>
       {data &&
@@ -96,7 +104,13 @@ const AllGroup = ({ data, setData }) => {
               {grp.items.map((item, itemIndex) => (
                 <React.Fragment key={itemIndex}>
                   {editGroupIdx === grpIndex && editItemIdx === itemIndex ? (
-                    <CardForm />
+                    <ItemFrom
+                      type="editItem"
+                      updateCardItemHandler={updateCardItemHandler}
+                      setEditGroupidx={setEditGroupidx}
+                      setEditItemidx={setEditItemidx}
+                      item={item}
+                    />
                   ) : (
                     <li
                       draggable={!item.lock}

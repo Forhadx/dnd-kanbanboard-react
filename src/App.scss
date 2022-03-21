@@ -1,9 +1,7 @@
 $color-white: #ffffff;
 $color-white-2: #e0e0e0;
-
 $color-black: #000000;
 $color-black-2: #262626;
-
 $color-gray: rgb(202, 199, 199);
 $color-blue: #00b7eb;
 
@@ -13,7 +11,7 @@ ul {
   padding: 0;
 }
 
-.App-header {
+.App {
   background-color: #282c34;
   width: 100%;
   min-height: 100vh;
@@ -22,16 +20,34 @@ ul {
   color: white;
 }
 
-/* ---------- */
+header {
+  text-align: center;
+  color: $color-white;
+  font-size: 2rem;
+  text-transform: uppercase;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 1rem 0;
+  z-index: 100;
+  background-color: rgba(#282c34, 0.9);
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  padding-top: 6rem;
+}
+
 .kanban-board {
-  padding: 0.5rem;
   width: 100%;
   height: 100%;
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, 300px);
   align-items: start;
-  padding: 2rem 2rem;
 
   .add-list {
     padding: 0.5rem 0.8rem;
@@ -50,11 +66,9 @@ ul {
     .lists-title {
       text-align: left;
       margin-bottom: 0.5rem;
-      // font-size: 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      // border: 1px solid black;
       border-radius: 3px;
 
       h5 {
@@ -81,7 +95,6 @@ ul {
       background-color: $color-white;
       border-radius: 3px;
       color: $color-black;
-      // font-weight: bold;
       text-align: left;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
         rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -108,7 +121,6 @@ ul {
         word-break: break-all;
         width: 85%;
         padding: 0.3rem 0.5rem;
-        // border: 1px solid black;
       }
 
       .icons {
@@ -117,17 +129,16 @@ ul {
         svg {
           cursor: pointer;
           color: $color-black-2;
+          font-size: 1.2rem;
         }
       }
     }
 
     .list-footer {
-      // width: 100%;
       .add-card {
         font-size: 1rem;
         padding: 0.3rem 0.8rem;
         color: $color-black;
-        // border: 1px solid black;
         cursor: pointer;
         border-radius: 3px;
 
@@ -145,14 +156,13 @@ ul {
   svg {
     color: $color-black;
     cursor: pointer;
+    font-size: 1.2rem;
   }
 
   ul {
-    // display: none;
     position: absolute;
     right: 0;
     top: 100%;
-    // width: 5rem;
     background-color: $color-white;
     color: $color-black;
     font-size: 1rem;
@@ -169,7 +179,7 @@ ul {
         color: rgb(250, 52, 52);
 
         svg {
-          color: rgb(250, 52, 52);
+          color: rgb(250, 52, 52) !important;
         }
       }
 
@@ -189,7 +199,6 @@ ul {
   textarea {
     resize: none;
     width: 93%;
-    // width: 100%;
     outline: none;
     border-radius: 3px;
     border: none;
