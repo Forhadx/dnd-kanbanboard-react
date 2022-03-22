@@ -41,6 +41,7 @@ main {
   padding-top: 6rem;
 }
 
+// ======= Kanban Board page =====
 .kanban-board {
   width: 100%;
   height: 100%;
@@ -48,6 +49,11 @@ main {
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, 300px);
   align-items: start;
+
+  @media only screen and (max-width: 985px) {
+    justify-content: center;
+    grid-column-gap: 5%;
+  }
 
   .add-list {
     font-size: 1.5rem;
@@ -88,6 +94,7 @@ main {
       }
     }
 
+    // Dnd item card
     .dnd-item {
       display: flex;
       justify-content: space-between;
@@ -151,6 +158,7 @@ main {
   }
 }
 
+// ====== more option dropdown ========
 .more-option {
   position: relative;
 
@@ -194,6 +202,7 @@ main {
   }
 }
 
+//===== All form design
 .form {
   width: 100%;
   margin-bottom: 0.5rem;
