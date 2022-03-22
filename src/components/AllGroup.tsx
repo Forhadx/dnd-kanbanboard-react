@@ -1,18 +1,24 @@
 import React, { useState, useRef } from "react";
+import { IList } from "./KanbanBoard";
 import ItemFrom from "./Forms/ItemFrom";
 import ListFooter from "./ListFooter";
 import ListHeader from "./ListHeader";
 import ListItem from "./ListItem";
 
-const AllGroup = ({ data, setData }) => {
-  const [dragging, setDragging] = useState(false);
-  const [editItemIdx, setEditItemidx] = useState(null);
-  const [editGroupIdx, setEditGroupidx] = useState(null);
+interface IProps {
+  data: IList[];
+  setData: React.Dispatch<React.SetStateAction<IList[]>>;
+}
 
-  const dragItem = useRef();
-  const dragNode = useRef();
+const AllGroup: React.FC<IProps> = ({ data, setData }) => {
+  const [dragging, setDragging] = useState<boolean>(false);
+  const [editItemIdx, setEditItemidx] = useState<number | null>(null);
+  const [editGroupIdx, setEditGroupidx] = useState<number | null>(null);
 
-  const handleDragStart = (e, params) => {
+  const dragItem = useRef<any>();
+  const dragNode = useRef<any>();
+
+  const handleDragStart = (e: any, params: any) => {
     dragItem.current = params;
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handlerDragEnd);
@@ -21,7 +27,7 @@ const AllGroup = ({ data, setData }) => {
     }, 0);
   };
 
-  const handleDragEnter = (e, params) => {
+  const handleDragEnter = (e: any, params: any) => {
     const currentItem = dragItem.current;
     if (e.target !== dragNode.current) {
       let newList = data;
@@ -43,7 +49,7 @@ const AllGroup = ({ data, setData }) => {
     dragNode.current = null;
   };
 
-  const getStyle = (params) => {
+  const getStyle = (params: any) => {
     const currentItem = dragItem.current;
     if (
       currentItem.grpIndex === params.grpIndex &&
@@ -54,7 +60,7 @@ const AllGroup = ({ data, setData }) => {
     return "dnd-item";
   };
 
-  const lockCardHandler = (grpIndex, itemIndex) => {
+  const lockCardHandler = (grpIndex: number, itemIndex: number) => {
     let newData = data;
     if (newData[grpIndex].items[itemIndex].lock === true) {
       newData[grpIndex].items[itemIndex].lock = false;
@@ -65,18 +71,32 @@ const AllGroup = ({ data, setData }) => {
     localStorage.setItem("data", JSON.stringify(newData));
   };
 
-  const deleteCardHandler = (grpIndex, itemIndex) => {
+  const deleteCardHandler = (grpIndex: number, itemIndex: number) => {
     let newData = data;
     newData[grpIndex].items.splice(itemIndex, 1);
     setData([...newData]);
     localStorage.setItem("data", JSON.stringify(newData));
   };
 
-  const updateCardItemHandler = (title) => {
-    let newData = data;
-    newData[editGroupIdx].items[editItemIdx].title = title;
+  const isUpdateCardItemHandler = (e: any, grpIdx: number, itemIdx: number) => {
+    if (e.detail === 2) {
+      setEditGroupidx(+grpIdx);
+      setEditItemidx(+itemIdx);
+    }
+  };
+
+  const updateCardItemHandler = (title: string) => {
+    let newData: IList[] = data;
+    if (editGroupIdx !== null && editItemIdx !== null) {
+      newData[editGroupIdx].items[editItemIdx].title = title;
+    }
     setData([...newData]);
     localStorage.setItem("data", JSON.stringify(newData));
+    setEditGroupidx(null);
+    setEditItemidx(null);
+  };
+
+  const cancelEditItemHandler = () => {
     setEditGroupidx(null);
     setEditItemidx(null);
   };
@@ -90,8 +110,8 @@ const AllGroup = ({ data, setData }) => {
             key={grpIndex}
             onDragEnter={
               dragging && !grp.items.length
-                ? (e) => handleDragEnter(e, { grpIndex, itemIndex: 0 })
-                : null
+                ? (e: any) => handleDragEnter(e, { grpIndex, itemIndex: 0 })
+                : undefined
             }
           >
             <ListHeader
@@ -107,8 +127,7 @@ const AllGroup = ({ data, setData }) => {
                     <ItemFrom
                       type="editItem"
                       updateCardItemHandler={updateCardItemHandler}
-                      setEditGroupidx={setEditGroupidx}
-                      setEditItemidx={setEditItemidx}
+                      cancelEditItemHandler={cancelEditItemHandler}
                       item={item}
                     />
                   ) : (
@@ -120,7 +139,7 @@ const AllGroup = ({ data, setData }) => {
                       onDragEnter={
                         dragging
                           ? (e) => handleDragEnter(e, { grpIndex, itemIndex })
-                          : null
+                          : undefined
                       }
                       className={
                         dragging
@@ -134,8 +153,7 @@ const AllGroup = ({ data, setData }) => {
                         grpIndex={grpIndex}
                         lockCardHandler={lockCardHandler}
                         deleteCardHandler={deleteCardHandler}
-                        setEditGroupidx={setEditGroupidx}
-                        setEditItemidx={setEditItemidx}
+                        isUpdateCardItemHandler={isUpdateCardItemHandler}
                       />
                     </li>
                   )}

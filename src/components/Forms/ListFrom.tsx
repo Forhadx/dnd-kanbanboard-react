@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const ListForm = ({
-  type,
+const ListForm: React.FC<any> = ({
+  inputType,
   grp,
   setIsEdit,
   editTitleHandler,
@@ -9,12 +9,12 @@ const ListForm = ({
   setIsAddGroup,
   addTitleHandler,
 }) => {
-  const [title, setTitle] = useState(grp ? grp.title : "");
+  const [title, setTitle] = useState<string>(grp ? grp.title : "");
 
-  const formHandler = (e) => {
+  const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (title.length > 0 && title.length <= 20) {
-      if (type === "editList") {
+      if (inputType === "editList") {
         editTitleHandler(title);
       } else {
         addTitleHandler(title);
@@ -24,7 +24,7 @@ const ListForm = ({
   };
 
   const cancelHandler = () => {
-    if (type === "editList") {
+    if (inputType === "editList") {
       setIsEdit(false);
     } else {
       setIsAddGroup(false);
@@ -42,7 +42,7 @@ const ListForm = ({
       />
       <div className="btns">
         <button type="submit">
-          {type === "editList" ? "Edit List" : "Add List"}
+          {inputType === "editList" ? "Edit List" : "Add List"}
         </button>
         <div className="cancel" onClick={cancelHandler}>
           X

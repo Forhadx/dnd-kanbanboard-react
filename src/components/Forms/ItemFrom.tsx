@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 
-const ItemFrom = ({
+const ItemFrom: React.FC<any> = ({
   type,
   item,
   updateCardItemHandler,
-  setEditGroupidx,
-  setEditItemidx,
+  cancelEditItemHandler,
   addGroupItemHandler,
   setShowAddCard,
 }) => {
   const [title, setTitle] = useState(item ? item.title : "");
 
-  const formHandler = (e) => {
+  const formHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (title.length > 0 && title.length <= 40) {
       if (type === "editItem") {
@@ -25,8 +24,7 @@ const ItemFrom = ({
 
   const cancelHandler = () => {
     if (type === "editItem") {
-      setEditGroupidx(null);
-      setEditItemidx(null);
+      cancelEditItemHandler();
     } else {
       setShowAddCard(true);
     }
@@ -35,7 +33,7 @@ const ItemFrom = ({
   return (
     <form className="form" onSubmit={formHandler}>
       <textarea
-        rows="3"
+        rows={3}
         placeholder="Enter a title for the card.."
         value={title}
         onChange={(e) => setTitle(e.target.value)}

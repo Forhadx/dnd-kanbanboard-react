@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import { RiMoreFill } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
 import ListForm from "./Forms/ListFrom";
+import { IList } from "./KanbanBoard";
 
-const ListHeader = ({ grp, grpIndex, data, setData }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+interface IProps {
+  grp: IList;
+  grpIndex: number;
+  data: IList[];
+  setData: React.Dispatch<React.SetStateAction<IList[]>>;
+}
 
-  const isEditHandler = (e) => {
+const ListHeader: React.FC<IProps> = ({ grp, grpIndex, data, setData }) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+
+  const isEditHandler = (e: any) => {
     if (e.detail === 2) {
       setIsEdit(true);
     }
   };
 
-  const editTitleHandler = (title) => {
+  const editTitleHandler = (title: string) => {
     let newData = data;
     newData[grpIndex].title = title;
     setData([...newData]);
@@ -32,7 +40,7 @@ const ListHeader = ({ grp, grpIndex, data, setData }) => {
     <>
       {isEdit ? (
         <ListForm
-          type="editList"
+          inputType="editList"
           editTitleHandler={editTitleHandler}
           grp={grp}
           setIsEdit={setIsEdit}

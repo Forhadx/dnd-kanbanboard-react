@@ -2,28 +2,32 @@ import React, { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { TiLockClosedOutline, TiLockOpenOutline } from "react-icons/ti";
+import { IItem } from "./KanbanBoard";
 
-const ListItem = ({
+interface IProps {
+  item: IItem;
+  itemIndex: number;
+  grpIndex: number;
+  lockCardHandler: Function;
+  deleteCardHandler: Function;
+  isUpdateCardItemHandler: Function;
+}
+
+const ListItem: React.FC<IProps> = ({
   item,
   itemIndex,
   grpIndex,
   lockCardHandler,
   deleteCardHandler,
-  setEditGroupidx,
-  setEditItemidx,
+  isUpdateCardItemHandler,
 }) => {
   const [isDeleteItem, setIsDeleteItem] = useState(false);
 
-  const EditItemHandler = (e) => {
-    if (e.detail === 2) {
-      setEditGroupidx(grpIndex);
-      setEditItemidx(itemIndex);
-    }
-  };
-
   return (
     <>
-      <p onClick={EditItemHandler}>{item.title}</p>
+      <p onClick={(e) => isUpdateCardItemHandler(e, grpIndex, itemIndex)}>
+        {item.title}
+      </p>
       <div className="icons">
         <div
           className="lock"
